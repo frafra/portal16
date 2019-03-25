@@ -1,4 +1,4 @@
-<div class="stickyNav"
+<div class="stickyNav {% if gb.locales.rtl %} rtl-supported {% endif %}"
      ng-class="{'mobileMenu--active': nav.mobileMenuActive, 'mainMenu--firstLevelActive': nav.activeMenu, hasOffset: nav.scrollOffset > 0}"
      ng-controller="navCtrl as nav">
     <div class="stickyNav__container">
