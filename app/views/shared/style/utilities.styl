@@ -183,3 +183,19 @@ for num in 0 1 2 3 {
 .rtl .rtl-supported {
     direction rtl
 }
+.rtl {
+    // transform scaleX(-1) //TODO temporary
+    .pull-right-rtl {
+        float left
+    }
+    .pull-left-rtl {
+        float right
+    }
+}
+
+.rtl-text {
+    direction rtl!important
+}
+.ltr-text {
+    direction ltr!important
+}

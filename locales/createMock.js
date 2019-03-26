@@ -7,6 +7,13 @@ let dir = buildConfig.paths.root + '/locales/_build/';
 let _ = require('lodash');
 let koreanString = '한국관광공사에오신것을환영합니다국내최대음란사이트소라넷운영자자진귀국국내최대음란물사이트였던소라넷운영자가운데한명이외국에서도피생활을하다가자진귀국해경찰에구속됐다';
 let arabString = 'بسماللهالرحمحيطةبالعملالإعلاميفيمصروكذلكمعاستمرارحجبمحتويالمؤسسةعنالوصولللجمهورقررتإدارةمؤسسةالبديلتعلنإشعارآخرونعتذرلجمهورنرارفيالوضعالاليالبديل٢٢إبريل٢٠١٨';
+let reverseAlphabet = '() zγxwvυɈƨɿpqonmlʞįiʜϱʇɘbɔdɒZYXWVUTƧЯϘԳOИM⅃ﻼႱIHӘᆿƎႧƆઘA'.split('').reverse();
+let normalAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ()'.split('');
+let reverseMap = {};
+normalAlphabet.forEach(function(e, i) {
+    reverseMap[e] = reverseAlphabet[i];
+});
+// console.log(reverseMap);
 
 let enJson = require(dir + 'en');
 let translatedPaths = [
@@ -78,7 +85,12 @@ function mockKorean(str) {
 }
 
 function mockArab(str) {
-    return generateMockString(arabString, str, 1.3);
+    // return str.split('').reverse().map(function(e) {
+    //     return typeof reverseMap[e] !== 'undefined' ? reverseMap[e] : e;
+    // }).reduce(function(accumulator, currentValue) {
+    //     return accumulator + currentValue;
+    // }, '');
+    return '٠' + generateMockString(arabString, str, 1.3) + '٢';
 }
 
 function generateMockString(letters, str, factor) {
