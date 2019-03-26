@@ -2,7 +2,7 @@
 
 {% block page %}
     <div class="wrapper-horizontal-stripes home" ng-controller="homeCtrl as home">
-        <div class="home__header" style="background-image: url('{$ _meta.imageCache $}1500x750/http:{$ resolved.Asset[main.fields.primaryImage[0].sys.id].fields.file.url | encodeURI  $}')">
+        <div class="home__header rtl-supported" style="background-image: url('{$ _meta.imageCache $}1500x750/http:{$ resolved.Asset[main.fields.primaryImage[0].sys.id].fields.file.url | encodeURI  $}')">
             <div>
                 <div class="container--desktop">
                     <div class="home__header__hero-text">
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="horizontal-stripe light-background p-t-05">
+        <div class="horizontal-stripe light-background p-t-05 rtl-supported">
             <div class="container--desktop">
                 <div class="home__counts">
                     <article class="article-box article-box--stats">

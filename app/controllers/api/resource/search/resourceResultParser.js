@@ -160,6 +160,18 @@ function getLocaleVersion(item, preferedLanguage, fallbackLanguage, depth) {
         return item; // failsafe as well as a sanity measure - don't recurse more than to depth 10
     }
     try {
+        if (_.isPlainObject(item)) {
+            // which locale version do we choose
+            if (_.has(item, 'title') || _.has(item, 'summary')) {
+                if (_.has(item, 'title.' + preferedLanguage) || _.has(item, 'summary.' + preferedLanguage)) {
+                    item._locale = preferedLanguage;
+                }
+                if (!item._locale) {
+                    item._locale = fallbackLanguage;
+                }
+            }
+        }
+
         if (_.has(item, fallbackLanguage)) {
             // if there is a fallback version, there might also be other translations.
             let languageVersion = _.get(item, preferedLanguage, item[fallbackLanguage]);

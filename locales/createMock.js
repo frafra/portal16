@@ -90,7 +90,7 @@ function mockArab(str) {
     // }).reduce(function(accumulator, currentValue) {
     //     return accumulator + currentValue;
     // }, '');
-    return '٠' + generateMockString(arabString, str, 1.3) + '٢';
+    return generateMockString(arabString, str, 1.3);
 }
 
 function generateMockString(letters, str, factor) {
