@@ -121,7 +121,7 @@
 
 {% macro newsArticle(article, __) %}
     {% if article %}
-        <article class="card card--flexible article-box hoverBox">
+        <article class="card card--flexible article-box hoverBox {% if gb.locales.config.localeMappings.rtl[article._locale] %} ltr-text {% endif %}">
             {#<div>#}
             {% if article.primaryImage %}
                 <a href="{$ gb.locales.urlPrefix $}/{$ article.contentType $}/{$ article.id $}/{$ article._slug $}" class="card__stripe">
@@ -132,7 +132,7 @@
             <div class="card__stripe--expandable inherit">
                 <div class="card__content">
                     <h4 class="article-box__title">
-                        <a href="{$ gb.locales.urlPrefix $}/{$ article.contentType $}/{$ article.id $}/{$ article._slug $}" class="inherit">{$ article.title | truncate(80) $}</a>
+                        <a href="{$ gb.locales.urlPrefix $}/{$ article.contentType $}/{$ article.id $}/{$ article._slug $}" class="inherit">{$ gb.locales.config.localeMappings.rtl[article._locale] $}{$ article.title | truncate(80) $}</a>
                     </h4>
                     <span class="article-box__footer">{$ article.createdAt | formatDate(gb.locales.current) $}</span>
                 </div>
@@ -144,7 +144,7 @@
 
 {% macro eventArticle(article, __) %}
     {% if article %}
-        <article class="card card--flexible article-box hoverBox">
+        <article class="card card--flexible article-box hoverBox {% if article._locale != 'ar' %} ltr-text {% endif %}">
             <a href="{$ gb.locales.urlPrefix $}/{$ article.contentType $}/{$ article.id $}/{$ article._slug $}" class="card__stripe">
                 <div class="date-box">
                     <img src="data:image/gif;base64,R0lGODdhAgABAIAAAAAAAAAAACwAAAAAAgABAAAIBQABAAgIADs="
@@ -176,7 +176,7 @@
 
 {% macro featureArticle(article, __) %}
     {% if article %}
-        <article class="card card--flexible article-box hoverBox">
+        <article class="card card--flexible article-box hoverBox {% if article._locale != 'ar' %} ltr-text {% endif %}">
             {#<div>#}
             {% if article.primaryImage %}
                 <a href="{$ article.url | localizeLink(gb.locales.urlPrefix) $}" class="card__stripe">

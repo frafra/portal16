@@ -46,6 +46,7 @@ function use(app, locales, defaultLocale) {
                 urlPrefix: '/' + locale,
                 current: locale,
                 locales: locales,
+                config: localeConfig,
                 rtl: localeConfig.localeMappings.rtl[locale]
             };
         } else if (typeof queryLocale !== 'undefined' && queryLocale != defaultLocale && locales.indexOf(queryLocale) > -1) {
@@ -54,7 +55,8 @@ function use(app, locales, defaultLocale) {
                 urlPrefix: '/' + queryLocale,
                 current: queryLocale,
                 locales: locales,
-                config: localeConfig
+                config: localeConfig,
+                rtl: localeConfig.localeMappings.rtl[queryLocale]
             };
         } else {
             req.setLocale(defaultLocale); // remove to use browser preference
@@ -62,7 +64,8 @@ function use(app, locales, defaultLocale) {
                 urlPrefix: '',
                 current: defaultLocale,
                 locales: locales,
-                config: localeConfig
+                config: localeConfig,
+                rtl: localeConfig.localeMappings.rtl[defaultLocale]
             };
         }
         // console.log();
