@@ -1,11 +1,11 @@
 {% if main.fields | hasAtLeastOneKey(['citation', 'countriesOfResearcher', 'countriesOfCoverage', 'topics', 'audiences', 'purposes', 'organisingParticipants']) %}
-<div class="article-auxiliary prose-columns smaller">
+<div class="article-auxiliary prose-columns smaller rtl-supported">
     <div> {# placeholder for the bootstrap row class, which breaks column here #}
 
         {% if main.fields.citation %}
             <section class="no-break">
                 <h4 translate="cms.auxiliary.citation"></h4>
-                {$ main.fields.citation | renderMarkdown | sanitize | linkify | safe $}
+                <div class="rtl_{$ main.fields.citation.value $}">{$ main.fields.citation.value | renderMarkdown | sanitize | linkify | safe $}</div>
             </section>
         {% endif %}
 
@@ -23,7 +23,7 @@
                     {% endif %}
                     {% for tag in main.fields.countriesOfResearcher %}
                         <li>
-                            <a href="{$ gb.locales.urlPrefix $}/resource/search?countriesOfResearcher={$ resolved.Entry[tag.sys.id].fields.isoCode $}">{$ __('country.' + resolved.Entry[tag.sys.id].fields.isoCode) $}</a>
+                            <a href="{$ gb.locales.urlPrefix $}/resource/search?countriesOfResearcher={$ resolved.Entry[tag.sys.id].fields.isoCode.value $}">{$ __('country.' + resolved.Entry[tag.sys.id].fields.isoCode.value) $}</a>
                         </li>
                     {% endfor %}
 
@@ -34,7 +34,7 @@
                     {% endif %}
                     {% for tag in main.fields.countriesOfCoverage %}
                         <li>
-                            <a href="{$ gb.locales.urlPrefix $}/resource/search?countriesOfCoverage={$ resolved.Entry[tag.sys.id].fields.isoCode $}">{$ __('country.' + resolved.Entry[tag.sys.id].fields.isoCode) $}</a>
+                            <a href="{$ gb.locales.urlPrefix $}/resource/search?countriesOfCoverage={$ resolved.Entry[tag.sys.id].fields.isoCode.value $}">{$ __('country.' + resolved.Entry[tag.sys.id].fields.isoCode.value) $}</a>
                         </li>
                     {% endfor %}
 
@@ -45,7 +45,7 @@
                     {% endif %}
                     {% for tag in main.fields.topics %}
                         <li>
-                            <a href="{$ gb.locales.urlPrefix $}/resource/search?topics={$ resolved.Entry[tag.sys.id].fields.term | constantCase $}">{$ __('enums.cms.vocabularyTerms.topics.'+(resolved.Entry[tag.sys.id].fields.term | constantCase)) $}</a>
+                            <a href="{$ gb.locales.urlPrefix $}/resource/search?topics={$ resolved.Entry[tag.sys.id].fields.term.value | constantCase $}">{$ __('enums.cms.vocabularyTerms.topics.'+(resolved.Entry[tag.sys.id].fields.term.value | constantCase)) $}</a>
                         </li>
                     {% endfor %}
 
@@ -56,7 +56,7 @@
                     {% endif %}
                     {% for tag in main.fields.audiences %}
                         <li>
-                            <a href="{$ gb.locales.urlPrefix $}/resource/search?audiences={$ resolved.Entry[tag.sys.id].fields.term | constantCase $}">{$ __('enums.cms.vocabularyTerms.audiences.'+(resolved.Entry[tag.sys.id].fields.term | constantCase)) $}</a>
+                            <a href="{$ gb.locales.urlPrefix $}/resource/search?audiences={$ resolved.Entry[tag.sys.id].fields.term.value | constantCase $}">{$ __('enums.cms.vocabularyTerms.audiences.'+(resolved.Entry[tag.sys.id].fields.term.value | constantCase)) $}</a>
                         </li>
                     {% endfor %}
 
@@ -67,7 +67,7 @@
                     {% endif %}
                     {% for tag in main.fields.purposes %}
                         <li>
-                            <a href="{$ gb.locales.urlPrefix $}/resource/search?purposes={$ resolved.Entry[tag.sys.id].fields.term | constantCase $}">{$ __('enums.cms.vocabularyTerms.purposes.'+(resolved.Entry[tag.sys.id].fields.term | constantCase))  $}</a>
+                            <a href="{$ gb.locales.urlPrefix $}/resource/search?purposes={$ resolved.Entry[tag.sys.id].fields.term.value | constantCase $}">{$ __('enums.cms.vocabularyTerms.purposes.'+(resolved.Entry[tag.sys.id].fields.term.value | constantCase))  $}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -81,7 +81,7 @@
                     {% for participant in main.fields.organisingParticipants %}
                         {% if resolved.Entry[participant.sys.id] %}
                             <li>
-                                <a href="{$ gb.locales.urlPrefix $}/country/{$ resolved.Entry[participant.sys.id].fields.country.sys.id $}">{$ resolved.Entry[participant.sys.id].fields.title $}</a>
+                                <a href="{$ gb.locales.urlPrefix $}/country/{$ resolved.Entry[participant.sys.id].fields.country.sys.id $}">{$ resolved.Entry[participant.sys.id].fields.title.value $}</a>
                             </li>
                         {% endif %}
                     {% endfor %}

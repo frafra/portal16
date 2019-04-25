@@ -113,29 +113,14 @@ function prose(req, res, next, type, template, redirectToSlug) {
 
     redirectToSlug = redirectToSlug !== false;
     // search for items with that id. search is used instead of entry get as search allow for includes of assets etc
-    resource.searchContentful(entry, 2, preview, res.locals.gb.locales.current)
-        .then(function(results) {
-            // check if there is any results. if not, then the item do not exists
-            if (results.total == 0) {
-                next();
-                return;
-            } else if (_.get(results, 'sys.type') !== 'Array') {
-                next(Error('contentful query failed'));
-                return;
-            }
-
-            let contentItem = resource.getFirstContentItem(results),
-                itemTitle = contentItem.main.fields.title || '',
-                slugTitle = resource.getSlug(itemTitle);
-            resource.mapLegacyData(contentItem);
-            resource.removeUnresovable(contentItem.main.fields, contentItem.resolved);
-
+    resource.getFirst({
+        'sys.id': entry
+        }, 2, false, res.locals.gb.locales.current)
+        .then(function(contentItem) {
+            // res.json(contentItem);
+            // return;
             let img = _.get(contentItem, 'resolved.Asset[' + _.get(contentItem, 'main.fields.primaryImage.sys.id') + '].fields.file.url');
-            contentItem._meta = {
-                title: preview ? 'preview' : itemTitle,
-                description: _.get(contentItem, 'main.fields.summary'),
-                slugTitle: slugTitle
-            };
+            contentItem._meta.description = _.get(contentItem, 'main.fields.summary.value');
             if (type === 'event') {
                 contentItem._meta.calendarEventLink = apiConfig.newsroomWebcal.url + contentItem.main.sys.id;
             }
@@ -145,8 +130,8 @@ function prose(req, res, next, type, template, redirectToSlug) {
 
             // if not a preview, then make sure the title is a part of the url by redirecting if necessary
             if (!preview && redirectToSlug) {
-                if (slugTitle !== '' && slugTitle != entryTitle) {
-                    res.redirect(302, res.locals.gb.locales.urlPrefix + '/' + type + '/' + entry + '/' + slugTitle);
+                if (contentItem._meta.slugTitle !== '' && contentItem._meta.slugTitle != entryTitle) {
+                    res.redirect(302, res.locals.gb.locales.urlPrefix + '/' + type + '/' + entry + '/' + contentItem._meta.slugTitle);
                     return;
                 }
             } else {

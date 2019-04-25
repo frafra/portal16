@@ -12,10 +12,10 @@
                                     __('enums.cms.contentType.news') $}</a></span>
                             <span class="article-header__category__lower">{$ (main.fields.meta.drupal.created or main.sys.createdAt) | formatDate(gb.locales.current) $}</span>
                         </nav>
-                        <h1>{$ main.fields.title $}</h1>
+                        <h1 class="rtl_{$ main.fields.title.isRtl $}">{$ main.fields.title.value $}</h1>
                         {% if main.fields.summary %}
-                            <div class="article-header__intro">
-                                {$ main.fields.summary | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
+                            <div class="article-header__intro rtl_{$ main.fields.summary.isRtl $}">
+                                {$ main.fields.summary.value | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
                             </div>
                         {% endif %}
                     </header>

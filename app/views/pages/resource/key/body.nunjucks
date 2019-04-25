@@ -1,13 +1,15 @@
-<div class="body-text--markdown">
-    {$ main.fields.body | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
+<div class="body-text--markdown rtl-supported">
+    <div class="rtl_{$ main.fields.body.isRtl $}">
+        {$ main.fields.body.value | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
+    </div>
 
     {% if main.fields.primaryImage and resolved.Asset[main.fields.primaryImage.sys.id].fields.file.details.image.width <= 800 %}
         <figure>
             <img class="bordered" ng-src="{$ _meta.imageCache $}http:{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.file.url | encodeURI  $}"
-                 alt="{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.title $}" style="max-width:500px">
-            {% if resolved.Asset[main.fields.primaryImage.sys.id].fields.description %}
-                <figcaption>
-                    <div>{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.description | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}</div>
+                 alt="{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.title.value $}" style="max-width:500px">
+            {% if resolved.Asset[main.fields.primaryImage.sys.id].fields.description.value %}
+                <figcaption class="rtl_{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.description.isRtl $}">
+                    <div>{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.description.value | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}</div>
                 </figcaption>
             {% endif %}
         </figure>

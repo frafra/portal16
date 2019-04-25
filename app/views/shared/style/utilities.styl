@@ -182,6 +182,7 @@ for num in 0 1 2 3 {
 
 .rtl .rtl-supported {
     direction rtl
+    text-align right
 }
 .rtl {
     // transform scaleX(-1) //TODO temporary
@@ -202,4 +203,18 @@ for num in 0 1 2 3 {
 
 .no-decimals li {
     list-style none!important
+}
+
+.is-rtl {
+    direction rtl
+}
+
+.rtl {
+    .rtl_false {
+        direction ltr
+        // unicode-bidi isolate
+    }
+    .rtl_true {
+        direction rtl
+    }
 }

@@ -1,13 +1,13 @@
-<div class="card m-b-05 searchCard">
+<div class="card m-b-05 searchCard rtl-supported">
     <div class="card__stripe">
         <div class="card__content">
             <span class="searchCard__type">{$ __('enums.cms.contentType.tool') $}</span>
-            <h3 class="searchCard__headline">
-                <a ng-if="!result.primaryLink || (result.primaryLink.url | gbifUrlAsRelative).indexOf('/') !==0" ng-href="{{ portal.urlPrefix }}/{{result.contentType}}/{{result.id}}/{{result._slug}}">
-                    {{result.title}}
+            <h3 class="searchCard__headline" class="rtl_{{result.title.isRtl}}">
+                <a ng-if="!result.primaryLink || (result.primaryLink.url.value | gbifUrlAsRelative).indexOf('/') !==0" ng-href="{{ portal.urlPrefix }}/{{result.contentType}}/{{result.id}}/{{result._slug}}">
+                    {{result.title.value}}
                 </a>
-                <a ng-if="result.primaryLink && (result.primaryLink.url | gbifUrlAsRelative).indexOf('/') ===0" ng-href="{{ result.primaryLink.url | gbifUrlAsRelative  }}">
-                    {{result.title}}
+                <a ng-if="result.primaryLink && (result.primaryLink.url.value | gbifUrlAsRelative).indexOf('/') ===0" ng-href="{{ result.primaryLink.url.value | gbifUrlAsRelative  }}">
+                    {{result.title.value}}
                 </a>
             </h3>
         </div>
@@ -17,8 +17,8 @@
             <a href="{{ portal.urlPrefix }}/{{result.contentType}}/{{result.id}}/{{result._slug}}">
                 <img class="searchCard__img" ng-src="{$ _meta.imageCache $}128x64/{{ 'http:' + result.primaryImage.file.url | encodeURIComponent }}" ng-if="result.primaryImage.file.url">
             </a>
-            <p>
-                {{result._summary}}
+            <p class="rtl_{{result.body.isRtl}}">
+                {{result.body.value}}
             </p>
         </div>
     </div>

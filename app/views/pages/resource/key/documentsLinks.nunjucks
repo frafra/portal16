@@ -1,13 +1,13 @@
 {% if main.fields.documents or main.fields.secondaryLinks%}
-    <section>
+    <section class="rtl-supported">
         <ul class="inline-document-list">
             {% for link in main.fields.secondaryLinks %}
                 <li>
-                    <a href="{$ resolved.Entry[link.sys.id].fields.url $}" class="inherit noUnderline">
+                    <a href="{$ resolved.Entry[link.sys.id].fields.url.value $}" class="inherit noUnderline">
                         <img src="/img/fileTypes/link.png">
                         <div>
                             <div>
-                                {$ resolved.Entry[link.sys.id].fields.label $}
+                                {$ resolved.Entry[link.sys.id].fields.label.value $}
                             </div>
                         </div>
                     </a>
@@ -19,8 +19,8 @@
                         <img src="/img/fileTypes/{$ resolved.Asset[document.sys.id].fields.file.contentType | fileContentTypeToIconName $}.png">
                         <div>
                             <div>
-                                {% if resolved.Asset[document.sys.id].fields.title %}
-                                    {$ resolved.Asset[document.sys.id].fields.title $}
+                                {% if resolved.Asset[document.sys.id].fields.title.value %}
+                                    {$ resolved.Asset[document.sys.id].fields.title.value $}
                                 {% else %}
                                     {$ resolved.Asset[document.sys.id].fields.file.fileName $}
                                 {% endif %}

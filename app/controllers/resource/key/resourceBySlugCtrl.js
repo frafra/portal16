@@ -12,6 +12,7 @@ router.get('/*.:ext?', function(req, res, next) {
 
     resource.getByAlias(urlAlias, 2, false, res.locals.gb.locales.current)
         .then(function(contentItem) {
+            // res.json(contentItem);
             helper.renderPage(req, res, next, contentItem, 'pages/resource/key/article/article');
         })
         .catch(function(err) {

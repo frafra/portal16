@@ -1,12 +1,12 @@
-<div class="card m-b-05 searchCard">
+<div class="card m-b-05 searchCard rtl-supported">
     <div class="card__stripe">
         <div class="card__content">
-            <h3 class="searchCard__headline">
+            <h3 class="searchCard__headline rtl_{{result.title.isRtl}}">
                 <a href="{{ portal.urlPrefix }}{{result.urlAlias}}" ng-if="result.urlAlias">
-                    {{result.title}}
+                    {{result.title.value}}
                 </a>
                 <a href="{{ portal.urlPrefix }}/article/{{result.id}}/{{result._slug}}" ng-if="!result.urlAlias">
-                    {{result.title}}
+                    {{result.title.value}}
                 </a>
             </h3>
         </div>
@@ -19,8 +19,8 @@
             <a href="{{ portal.urlPrefix }}/article/{{result.id}}/{{result._slug}}" ng-if="!result.urlAlias">
                 <img class="searchCard__img" ng-src="{$ _meta.imageCache $}128x64/{{ 'http:' + result.primaryImage.file.url | encodeURIComponent }}" ng-if="result.primaryImage.file.url">
             </a>
-            <p>
-                {{result._summary}}
+            <p class="rtl_{{result.body.isRtl}}">
+                {{result.body.value}}
             </p>
         </div>
     </div>

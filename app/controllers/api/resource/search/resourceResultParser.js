@@ -3,7 +3,9 @@ const _ = require('lodash'),
     format = require('../../../../helpers/format'),
     slug = require('slug'),
     md = require('markdown-it')({html: true, linkify: false, typographer: true, breaks: true}),
-    changeCase = require('change-case');
+    contentfulLocaleMap = require('../../../../../config/config').contentfulLocaleMap,
+    changeCase = require('change-case'),
+    localeConfig = require('../../../../../config/locales');
 
 md.use(require('markdown-it-video'), {
     youtube: {width: 640, height: 390},
@@ -48,8 +50,8 @@ function normalize(result, offset, limit) {
         if (_.isObject(result.aggregations)) {
             // add total distincts if available
             _.filter(Object.keys(result.aggregations), function(e) {
-return _.endsWith(e, '_count');
-}).forEach(function(key) {
+                    return _.endsWith(e, '_count');
+                }).forEach(function(key) {
                 let value = _.get(result.aggregations[key], 'value');
                 let aggItem = result.aggregations[key.substr(0, key.length - 6)];
                 if (!aggItem) {
@@ -153,43 +155,56 @@ function selectLocale(results, fieldsPaths, preferedLanguage, fallbackLanguage) 
     });
 }
 
-function getLocaleVersion(item, preferedLanguage, fallbackLanguage, depth) {
+function getLocaleVersion(item, preferedLocale, fallbackLanguage) {
+    let contenfulPreferedLocale = contentfulLocaleMap[preferedLocale];
+    let contentfulFallBack = contentfulLocaleMap[fallbackLanguage];
+    return getLocaleVersionRecursive(item, contenfulPreferedLocale, contentfulFallBack, preferedLocale, fallbackLanguage, 0);
+}
+
+function getLocaleVersionRecursive(item, contenfulPreferedLocale, contentfulFallBack, preferedLocale, fallbackLanguage, depth) {
     depth = depth || 0;
     depth++;
     if (depth > 10) {
         return item; // failsafe as well as a sanity measure - don't recurse more than to depth 10
     }
     try {
-        if (_.isPlainObject(item)) {
-            // which locale version do we choose
-            if (_.has(item, 'title') || _.has(item, 'summary')) {
-                if (_.has(item, 'title.' + preferedLanguage) || _.has(item, 'summary.' + preferedLanguage)) {
-                    item._locale = preferedLanguage;
-                }
-                if (!item._locale) {
-                    item._locale = fallbackLanguage;
-                }
-            }
-        }
+        // if (_.isPlainObject(item)) {
+        //     // which locale version do we choose
+        //     if (_.has(item, 'title') || _.has(item, 'summary')) {
+        //         if (_.has(item, 'title.' + contenfulPreferedLocale) || _.has(item, 'summary.' + contenfulPreferedLocale)) {
+        //             item._locale = preferedLocale;
+        //         }
+        //         if (!item._locale) {
+        //             item._locale = fallbackLanguage;
+        //         }
+        //     }
+        // }
 
-        if (_.has(item, fallbackLanguage)) {
+        if (_.has(item, contentfulFallBack)) {
             // if there is a fallback version, there might also be other translations.
-            let languageVersion = _.get(item, preferedLanguage, item[fallbackLanguage]);
+            let chosenLocale = _.get(item, contenfulPreferedLocale) ? preferedLocale : fallbackLanguage;
+            let languageVersion = _.get(item, contenfulPreferedLocale, item[contentfulFallBack]);
             if (_.isString(languageVersion)) {
-                return getLocaleVersion(languageVersion, preferedLanguage, fallbackLanguage, depth);
+                // return getLocaleVersionRecursive(languageVersion, contenfulPreferedLocale, contentfulFallBack, preferedLocale, fallbackLanguage, depth);
+                // return languageVersion;
+                return {
+                    value: languageVersion,
+                    locale: chosenLocale,
+                    isRtl: localeConfig.localeMappings.rtl[chosenLocale] ? true : false
+                };
             } else {
-                return getLocaleVersion(languageVersion, preferedLanguage, fallbackLanguage, depth);
+                return getLocaleVersionRecursive(languageVersion, contenfulPreferedLocale, contentfulFallBack, preferedLocale, fallbackLanguage, depth);
             }
         } else {
             // not a translated field, but might be an array or object that should be translated
             if (_.isPlainObject(item) && !_.isEmpty(item)) {
                 return _.mapValues(item, function(o) {
-                    return getLocaleVersion(o, preferedLanguage, fallbackLanguage, depth);
+                    return getLocaleVersionRecursive(o, contenfulPreferedLocale, contentfulFallBack, preferedLocale, fallbackLanguage, depth);
                 });
             }
             if (_.isArray(item) && !_.isEmpty(item)) {
                 return _.map(item, function(o) {
-                    return getLocaleVersion(o, preferedLanguage, fallbackLanguage, depth);
+                    return getLocaleVersionRecursive(o, contenfulPreferedLocale, contentfulFallBack, preferedLocale, fallbackLanguage, depth);
                 });
             }
             return item;
@@ -236,7 +251,7 @@ function concatFields(results, fieldsPaths, targetField) {
     results.forEach(function(e) {
         let concatString = '';
         fieldsPaths.forEach(function(field) {
-            let value = _.get(e, field);
+            let value = _.get(e, field, '.value');
             if (_.isString(value)) {
                 concatString += value + ' … ';
             }

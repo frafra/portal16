@@ -29,11 +29,11 @@ async function getItem(requestQuery, __, options) {
     let resp = await client.search(query);
 
     let parsedResult = resourceResultParser.normalize(resp, query.from, query.size);
-    parsedResult.results = resourceResultParser.getLocaleVersion(parsedResult.results, contentfulLocaleMap[preferedLocale], contentfulLocaleMap[defaultLocale]);
+    parsedResult.results = resourceResultParser.getLocaleVersion(parsedResult.results, preferedLocale, defaultLocale);
 
-    resourceResultParser.addSlug(parsedResult.results, 'title');
+    resourceResultParser.addSlug(parsedResult.results, 'title.value');
     resourceResultParser.addUrl(parsedResult.results);
-    resourceResultParser.renderMarkdown(parsedResult.results, ['body', 'summary', 'abstract']);
+    resourceResultParser.renderMarkdown(parsedResult.results, ['body.value', 'summary.value', 'abstract']);
 
     return parsedResult;
 }
@@ -55,16 +55,16 @@ async function search(requestQuery, __, options) {
     // resourceResultParser.renameField(parsedResult.results, 'literature', 'abstract', 'summary');//rename literature.abcstract to summary for consistency with other content types
     resourceResultParser.renameField(parsedResult.results, 'event', 'description', 'summary');
 
-    parsedResult.results = resourceResultParser.getLocaleVersion(parsedResult.results, contentfulLocaleMap[preferedLocale], contentfulLocaleMap[defaultLocale]);
+    parsedResult.results = resourceResultParser.getLocaleVersion(parsedResult.results, preferedLocale, defaultLocale);
 
     if (!options.rawResponse) {
-        resourceResultParser.renderMarkdown(parsedResult.results, ['body', 'summary', 'abstract', 'title']);
-        resourceResultParser.stripHtml(parsedResult.results, ['body', 'summary', 'title', 'abstract']);
-        resourceResultParser.concatFields(parsedResult.results, ['summary', 'body'], '_summary');
-        resourceResultParser.truncate(parsedResult.results, ['title'], 150);
-        resourceResultParser.truncate(parsedResult.results, ['body', 'summary', '_summary'], 200);
+        resourceResultParser.renderMarkdown(parsedResult.results, ['body.value', 'summary.value', 'abstract.value', 'title.value']);
+        resourceResultParser.stripHtml(parsedResult.results, ['body.value', 'summary.value', 'title.value', 'abstract']);
+        resourceResultParser.concatFields(parsedResult.results, ['summary.value', 'body.value'], '_summary.value');
+        resourceResultParser.truncate(parsedResult.results, ['title.value'], 150);
+        resourceResultParser.truncate(parsedResult.results, ['body.value', 'summary.value', '_summary.value'], 200);
         resourceResultParser.truncate(parsedResult.results, ['abstract'], 300);
-        resourceResultParser.addSlug(parsedResult.results, 'title');
+        resourceResultParser.addSlug(parsedResult.results, 'title.value');
         resourceResultParser.addUrl(parsedResult.results);
         resourceResultParser.transformFacets(parsedResult, __);
         resourceResultParser.addFilters(parsedResult, requestQuery, __);

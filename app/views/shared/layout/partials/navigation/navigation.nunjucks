@@ -35,17 +35,17 @@
                     {% for menuGroup in gb.menu %}
                         {% if menuGroup.type == 'normal' %}
                             <li class="mainMenu--hasChild mainMenu__firstLevel {% if menuGroup.roles %} ng-cloak {% endif %}"
-                                ng-class="{'mainMenu--childActive': nav.activeMenu == '{$ menuGroup.name $}'}"
+                                ng-class="{'mainMenu--childActive': nav.activeMenu == '{$ menuGroup.name.value $}'}"
                                 {% if menuGroup.roles %} ng-if='nav.hasRole({$ menuGroup.roles | rawJson $})' {% endif %}>
                                 <a class=" mainMenu__parentItem" href=""
-                                   ng-click="nav.toggleMenu('{$ menuGroup.name $}')">{$ menuGroup.name $}</a>
+                                   ng-click="nav.toggleMenu('{$ menuGroup.name.value $}')">{$ menuGroup.name.value $}</a>
                                 <ul class="mainMenu__childGroup">
                                     <li class="mainMenu__columns">
                                         <nav><h2>{# NO SUB HEADER SINCE THERE IS ONLY ONE CHILD #}</h2>
                                             <ul class="mainMenu__childItem">
                                                 {% for item in menuGroup.items %}
                                                     <li {% if item.roles %} ng-if='nav.hasRole({$ item.roles | rawJson $})' {% endif %}>
-                                                        <a href="{% if not item.externalLink %}{$ gb.locales.urlPrefix $}{% endif %}{$ item.url $}">{$ item.name $}
+                                                        <a href="{% if not item.externalLink %}{$ gb.locales.urlPrefix $}{% endif %}{$ item.url $}" class="rtl_{$ item.name.isRtl $}">{$ item.name.value $}
                                                             {% if item.externalLink %}
                                                                 <span class="gb-icon-link"></span>
                                                             {% endif %}
@@ -60,18 +60,18 @@
                         {% endif %}
                         {% if menuGroup.type == 'mega' %}
                             <li class="mainMenu--hasChild mainMenu__firstLevel mainMenu--hasGrandChild {% if menuGroup.roles %} ng-cloak {% endif %}>"
-                                ng-class="{'mainMenu--childActive': nav.activeMenu == '{$ menuGroup.name $}'}"
+                                ng-class="{'mainMenu--childActive': nav.activeMenu == '{$ menuGroup.name.value $}'}"
                                 {% if menuGroup.roles %} ng-if='nav.hasRole({$ menuGroup.roles | rawJson $})' {% endif %}>
                                 <a class=" mainMenu__parentItem" href=""
-                                   ng-click="nav.toggleMenu('{$ menuGroup.name $}')">{$ menuGroup.name $}</a>
+                                   ng-click="nav.toggleMenu('{$ menuGroup.name.value $}')">{$ menuGroup.name.value $}</a>
                                 <ul class="mainMenu__childGroup">
                                     {% for category in menuGroup.items %}
                                         <li class="mainMenu__columns" {% if category.roles %} ng-if='nav.hasRole({$ category.roles | rawJson $})' {% endif %}>
-                                            <nav><h2>{$ category.name $}</h2>
+                                            <nav><h2 class="rtl_{$ category.name.isRtl $}">{$ category.name.value $}</h2>
                                                 <ul class="mainMenu__childItem">
                                                     {% for item in category.items %}
                                                         <li {% if item.roles %} ng-if='nav.hasRole({$ item.roles | rawJson $})' {% endif %}>
-                                                            <a href="{% if not item.externalLink %}{$ gb.locales.urlPrefix $}{% endif %}{$ item.url $}">{$ item.name $}
+                                                            <a href="{% if not item.externalLink %}{$ gb.locales.urlPrefix $}{% endif %}{$ item.url $}" class="rtl_{$ item.name.isRtl $}">{$ item.name.value $}
                                                                 {% if item.externalLink %}
                                                                     <span class="gb-icon-link"></span>
                                                                 {% endif %}

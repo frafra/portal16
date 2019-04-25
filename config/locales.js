@@ -99,7 +99,8 @@ module.exports = {
     locales: locales,
     defaultLocale: defaultLocale,
     localeMappings: {
-        contentful: contentfulLocaleMap, // removeConfigurationForUnused would make sense if it wasn't for the homepage that is translated as the only thing at the time of wrinting and is sp based on browser locale
+        // removeConfigurationForUnused would make sense if it wasn't for the homepage that is translated as the only thing at the time of wrinting and is sp based on browser locale
+        contentful: contentfulLocaleMap,
         moment: removeConfigurationForUnused(momentMap),
         jsLocale: removeConfigurationForUnused(jsLocaleMap),
         translation: removeConfigurationForUnused(translationMap),

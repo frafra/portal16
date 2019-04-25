@@ -7,7 +7,9 @@ let _ = require('lodash'),
     moment = require('moment'),
     querystring = require('querystring'),
     contentfulLocaleMap = rootRequire('config/config').contentfulLocaleMap,
-    credentials = rootRequire('config/credentials').contentful.gbif;
+    defaultLocale = rootRequire('config/config').defaultLocale,
+    credentials = rootRequire('config/credentials').contentful.gbif,
+    resourceResultParser = require('../../api/resource/search/resourceResultParser');
 
 module.exports = {
     getSlug: getSlug,
@@ -31,12 +33,12 @@ function searchContentful(query, depth, isPreview, locale) {
     let accessToken = isPreview ? credentials.preview_access_token : credentials.access_token,
         api = isPreview ? 'http://preview.contentful.com' : 'http://cdn.contentful.com',
         space = credentials.space,
-        validLocale = contentfulLocaleMap[locale],
+        // validLocale = contentfulLocaleMap[locale],
         composedQuery = {
             'access_token': accessToken,
             'include': depth || 1,
             // 'sys.id': entryId,
-            'locale': validLocale
+            'locale': '*'
         },
         requestPath;
 
@@ -57,7 +59,7 @@ function searchContentful(query, depth, isPreview, locale) {
     return request(proseRequest);
 }
 
-function decorateFirst(results) {
+function decorateFirst(results, locale) {
     // check if there is any results. if not, then the item do not exists
     if (results.total == 0) {
         return;
@@ -65,17 +67,24 @@ function decorateFirst(results) {
         throw (Error('contentful query failed'));
     }
 
-    let contentItem = getFirstContentItem(results),
-        itemTitle = contentItem.main.fields.title || '',
-        slugTitle = getSlug(itemTitle);
+    let contentItem = getFirstContentItem(results);
     mapLegacyData(contentItem);
     removeUnresovable(contentItem.main.fields, contentItem.resolved);
 
-    contentItem._meta = {
+    let locallizedItem = getLanguageVersion(contentItem, locale);
+    let itemTitle = locallizedItem.main.fields.title.value || '';
+    let slugTitle = getSlug(itemTitle);
+    locallizedItem._meta = {
         title: itemTitle,
         slugTitle: slugTitle
     };
-    return contentItem;
+    return locallizedItem;
+}
+
+function getLanguageVersion(item, locale) {
+    let localized = resourceResultParser.getLocaleVersion(item, locale, defaultLocale);
+    console.log(JSON.stringify(localized, null, 2));
+    return localized;
 }
 
 async function getParticipant(directoryId, depth, isPreview, locale) {
@@ -83,7 +92,7 @@ async function getParticipant(directoryId, depth, isPreview, locale) {
             'content_type': 'Participant',
             'fields.directoryId': directoryId
         }, depth, isPreview, locale),
-            first = decorateFirst(participants);
+            first = decorateFirst(participants, locale);
     return first;
 }
 
@@ -97,7 +106,7 @@ async function getByAlias(urlAlias, depth, isPreview, locale) {
 
 async function getFirst(query, depth, isPreview, locale) {
     query = query || {};
-    query.content_type = _.isString(query.content_type) ? query.content_type : 'article';
+    // query.content_type = _.isString(query.content_type) ? query.content_type : 'article';
     let response = await searchContentful(query, depth, isPreview, locale);
     if (_.get(response, 'sys.type') == 'Error') {
         throw {
@@ -110,7 +119,7 @@ async function getFirst(query, depth, isPreview, locale) {
             message: 'No such item'
         };
     }
-    let first = decorateFirst(response);
+    let first = decorateFirst(response, locale);
     return first;
 }
 
@@ -122,13 +131,13 @@ async function getById(id, depth, isPreview, locale) {
             message: 'No such resource'
         };
     }
-    let first = decorateFirst(articles);
+    let first = decorateFirst(articles, locale);
     return first;
 }
 
 async function getHomePage(isPreview, locale) {
     let homepages = await searchContentful({content_type: 'homePage'}, 3, isPreview, locale),
-        first = decorateFirst(homepages);
+        first = decorateFirst(homepages, locale);
     return first;
 }
 

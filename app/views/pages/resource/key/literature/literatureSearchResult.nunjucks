@@ -1,8 +1,8 @@
-<div class="card m-b-05 searchCard">
+<div class="card m-b-05 searchCard rtl-supported">
     <div class="card__stripe">
         <div class="card__content">
             <span class="searchCard__type">{$ __('enums.cms.contentType.literature') $}</span>
-            <h3 class="searchCard__headline">
+            <h3 class="searchCard__headline rtl_false">
                 <a ng-href="https://doi.org/{{result.identifiers.doi}}" ng-if="result.identifiers.doi">
                     {{result.title}}
                     <span class="gb-icon-link"></span>
@@ -33,7 +33,7 @@
                     </span>
                 </span>
             </div>
-            <p>
+            <p class="rtl_false">
                 {{result.abstract}}
             </p>
             <div class="m-b-025">

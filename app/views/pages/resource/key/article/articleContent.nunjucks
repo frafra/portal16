@@ -16,13 +16,13 @@
                     <span class="article-header__category__upper">{$ (main.fields.meta.drupal.created or main.sys.createdAt) | formatDate(gb.locales.current) $}</span>
                 </nav>
                 {% endif %}
-                <h1>{$ main.fields.title $}</h1>
-                <div class="article-header__intro">
-                    {$ main.fields.summary | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
+                <h1 class="locale_{$ main.fields.title.locale $}">{$ main.fields.title.value $}</h1>
+                <div class="article-header__intro locale_{$ main.fields.summary.locale $}">
+                    {$ main.fields.summary.value | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
                 </div>
-                {% if main.fields.numberOfResourceUsed | isNotEmpty %}
-                    <span class="article-header__meta">
-                    {$ main.fields.numberOfResourceUsed | striptags $}
+                {% if main.fields.numberOfResourceUsed.value | isNotEmpty %}
+                    <span class="article-header__meta locale_{$ main.fields.numberOfResourceUsed.locale $}">
+                    {$ main.fields.numberOfResourceUsed.value | striptags $}
                     </span>
                 {% endif %}
             </header>

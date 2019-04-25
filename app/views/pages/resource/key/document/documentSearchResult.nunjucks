@@ -1,18 +1,18 @@
-<div class="card m-b-05 searchCard">
+<div class="card m-b-05 searchCard rtl-supported">
     <div class="card__stripe">
         <div class="card__content">
             <span class="searchCard__type uppercase-first" translate="enums.cms.contentType.document"></span>
             <h3 class="searchCard__headline">
-                <a href="{{ portal.urlPrefix }}/document/{{result.id}}/{{result._slug}}" ng-if="!result.urlAlias">
-                    {{result.title}}
+                <a href="{{ portal.urlPrefix }}/document/{{result.id}}/{{result._slug}}" ng-if="!result.urlAlias" class="rtl_{{result.title.isRtl}}">
+                    {{result.title.value}}
                 </a>
             </h3>
         </div>
     </div>
     <div class="card__stripe">
         <div class="card__content searchCard__content clearfix">
-            <p>
-                {{result._summary}}
+            <p class="rtl_{{result.body.isRtl}}">
+                {{result.body.value}}
             </p>
         </div>
     </div>

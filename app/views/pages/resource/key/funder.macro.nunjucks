@@ -7,10 +7,10 @@
                          {#if organisation without logo#}
                         {% if resolved.Entry[funder.sys.id].sys.contentType.sys.id != "Participant" and not resolved.Asset[resolved.Entry[funder.sys.id].fields.logo.sys.id].fields.file.url %}
                             <li>
-                                {% if resolved.Entry[funder.sys.id].fields.url %}
-                                    <a href="{$ resolved.Entry[funder.sys.id].fields.url $}">{$ resolved.Entry[funder.sys.id].fields.title $}</a>
+                                {% if resolved.Entry[funder.sys.id].fields.url.value %}
+                                    <a href="{$ resolved.Entry[funder.sys.id].fields.url $}">{$ resolved.Entry[funder.sys.id].fields.title.value $}</a>
                                 {% else %}
-                                    <span>{$ resolved.Entry[funder.sys.id].fields.title $}</span>
+                                    <span>{$ resolved.Entry[funder.sys.id].fields.title.value $}</span>
                                 {% endif %}
                             </li>
                         {% endif %}
@@ -25,17 +25,17 @@
                                 <a href="{$ gb.locales.urlPrefix $}/country/{$ resolved.Entry[funder.sys.id].fields.country.sys.id $}/about">
                                     <img src="/img/flags/{$ resolved.Entry[funder.sys.id].fields.country.sys.id $}.png">
                                     <div>
-                                        GBIF {$ resolved.Entry[funder.sys.id].fields.title $}
+                                        GBIF {$ resolved.Entry[funder.sys.id].fields.title.value $}
                                     </div>
                                 </a>
                             </li>
                             {#if organisation#}
                         {% elif resolved.Asset[resolved.Entry[funder.sys.id].fields.logo.sys.id].fields.file.url %}
                             <li>
-                                <a href="{$ resolved.Entry[funder.sys.id].fields.url $}">
+                                <a href="{$ resolved.Entry[funder.sys.id].fields.url.value $}">
                                     <img src="{$ resolved.Asset[resolved.Entry[funder.sys.id].fields.logo.sys.id].fields.file.url $}">
                                     <div>
-                                        {$ resolved.Entry[funder.sys.id].fields.title $}
+                                        {$ resolved.Entry[funder.sys.id].fields.title.value $}
                                     </div>
                                 </a>
                             </li>
