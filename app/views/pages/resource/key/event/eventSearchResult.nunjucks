@@ -1,14 +1,14 @@
-<div class="card m-b-05 searchCard" ng-class="{'event--past': (result.end | isPast)}">
+<div class="card m-b-05 searchCard rtl-supported" ng-class="{'event--past': (result.end | isPast)}">
     <div class="card__stripe">
         <div class="card__content">
             <span class="searchCard__type" translate="enums.cms.contentType.event"></span>
-            <h3 class="searchCard__headline">
-                <a ng-href="{{ result.primaryLink.url }}" ng-if="result.primaryLink.url">
-                    {{result.title}}
+            <h3 class="searchCard__headline rtl_{{result.title.isRtl}}">
+                <a ng-href="{{ result.primaryLink.url.value }}" ng-if="result.primaryLink.url">
+                    {{result.title.value}}
                     <span class="gb-icon-link"></span>
                 </a>
                 <a ng-href="{{ portal.urlPrefix }}/{{result.contentType}}/{{result.id}}/{{result._slug}}" ng-if="!result.primaryLink.url">
-                    {{result.title}}
+                    {{result.title.value}}
                 </a>
             </h3>
         </div>

@@ -1,5 +1,5 @@
 {% if main.fields.primaryImage and resolved.Asset[main.fields.primaryImage.sys.id].fields.file.details.image.width > 1170 %}
-    <div class="horizontal-stripe--paddingless white-background rtl-supported">
+    <div class="horizontal-stripe--paddingless white-background">
         <figure class="heading-image">
             <div class="cover-image">
                 <img ng-src="{$ _meta.imageCache $}1170x422/http:{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.file.url | encodeURI  $}"
@@ -13,7 +13,7 @@
     </div>
 
     {% elif main.fields.primaryImage and resolved.Asset[main.fields.primaryImage.sys.id].fields.file.details.image.width > 800 %}
-    <div class="horizontal-stripe--paddingless white-background rtl-supported">
+    <div class="horizontal-stripe--paddingless white-background">
         <div class="container--narrow">
             <figure class="heading-image">
                 <img class="bordered" ng-src="{$ _meta.imageCache $}http:{$ resolved.Asset[main.fields.primaryImage.sys.id].fields.file.url | encodeURI  $}"

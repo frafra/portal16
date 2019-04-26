@@ -6,18 +6,18 @@
                     <a href="{$ gb.locales.urlPrefix $}/resource/search?contentType=project">{$ __('enums.cms.contentType.project') $}</a>
                 </span>
                 <span class="article-header__category__lower">
-                    {$ __('enums.cms.vocabularyTerms.projectStatus.' + main.fields.status) $}
+                    {$ __('enums.cms.vocabularyTerms.projectStatus.' + main.fields.status.value) $}
                 </span>
             </nav>
-            <h1>{$ main.fields.title $}</h1>
+            <h1 class="rtl_{$ main.fields.title.isRtl $}">{$ main.fields.title.value $}</h1>
 
             <div class="article-header__highlights">
 
                 {% if main.fields.start and main.fields.end %}
                     <div>
-                        <a href="#details" class="inherit">
+                        <a href="#details" class="inherit is-rtl">
                             <span class="gb-icon-calendar"></span>
-                            {$ main.fields.start | dateRange(main.fields.end, false, gb.locales.current) $}
+                            {$ main.fields.start.value | dateRange(main.fields.end.value, false, gb.locales.current) $}
                         </a>
                     </div>
                 {% endif %}
@@ -26,7 +26,7 @@
 
                 {% if main.fields.fundsAllocated %}
                 <div>
-                    <a href="#funding" class="inherit">
+                    <a href="#funding" class="inherit is-rtl">
                         <span class="gb-icon-euro"></span>
                          {$ main.fields.fundsAllocated.toLocaleString() $} 
                     </a>

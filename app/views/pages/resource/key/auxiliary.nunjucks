@@ -5,7 +5,7 @@
         {% if main.fields.citation %}
             <section class="no-break">
                 <h4 translate="cms.auxiliary.citation"></h4>
-                <div class="rtl_{$ main.fields.citation.value $}">{$ main.fields.citation.value | renderMarkdown | sanitize | linkify | safe $}</div>
+                <div class="rtl_{$ main.fields.citation.isRtl $}">{$ main.fields.citation.value | renderMarkdown | sanitize | linkify | safe $}</div>
             </section>
         {% endif %}
 

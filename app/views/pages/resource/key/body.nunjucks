@@ -1,4 +1,4 @@
-<div class="body-text--markdown rtl-supported">
+<div class="body-text--markdown">
     <div class="rtl_{$ main.fields.body.isRtl $}">
         {$ main.fields.body.value | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
     </div>

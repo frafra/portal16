@@ -3,7 +3,7 @@
 <div class="horizontal-stripe white-background">
     <div class="container--narrow">
         {% include "../body.nunjucks" %}
-        <div class="article-secondary">
+        <div class="article-secondary rtl-supported rtl-bootstrap">
 
             <span class="relative-anchor-offset"><a id="details"></a></span>
             <section class="row">
@@ -26,7 +26,7 @@
                         {% if main.fields.grantType %}
                             <div>
                                 <dt translate="cms.project.typeOfGrant">Type of grant</dt>
-                                <dd>{$ __('enums.cms.vocabularyTerms.projectGrantType.' + main.fields.grantType) $}</dd>
+                                <dd>{$ __('enums.cms.vocabularyTerms.projectGrantType.' + main.fields.grantType.value) $}</dd>
                             </div>
                         {% endif %}
                     </dl>
@@ -44,20 +44,20 @@
                             {% else %}
                                 <dt translate="cms.project.duration">Duration</dt>
                             {% endif %}
-                            <dd>{$ main.fields.start | dateRange(main.fields.end, false, gb.locales.current) $}</dd>
+                            <dd>{$ main.fields.start.value | dateRange(main.fields.end.value, false, gb.locales.current) $}</dd>
                         </div>
                         {% endif %}
 
-                        {% if resolved.Entry[main.fields.programme.sys.id].fields.title %}
+                        {% if resolved.Entry[main.fields.programme.sys.id].fields.title.value %}
                             <div>
                                 <dt translate="enums.cms.contentType.programme">Programme</dt>
-                                <dd><a href="{$ gb.locales.urlPrefix $}/programme/{$ resolved.Entry[main.fields.programme.sys.id].sys.id $}">{$ resolved.Entry[main.fields.programme.sys.id].fields.title $}</a></dd>
+                                <dd class="rtl_{$ resolved.Entry[main.fields.programme.sys.id].fields.title.isRtl $}"><a href="{$ gb.locales.urlPrefix $}/programme/{$ resolved.Entry[main.fields.programme.sys.id].sys.id $}">{$ resolved.Entry[main.fields.programme.sys.id].fields.title.value $}</a></dd>
                             </div>
                         {% endif %}
-                        {% if main.fields.projectId %}
+                        {% if main.fields.projectId.value %}
                             <div>
                                 <dt translate="cms.project.projectIdentifier">Project identifier</dt>
-                                <dd>{$ main.fields.projectId $}</dd>
+                                <dd>{$ main.fields.projectId.value $}</dd>
                             </div>
                         {% endif %}
                     </dl>
@@ -67,7 +67,7 @@
             </section>
             {#{% endif %}#}
 
-            <section>
+            <section class="rtl-supported">
                 <dl class="inline">
 
                     {% if main.fields.fundsAllocated and resolved.Entry[main.fields.programme.sys.id].fields.fundingOrganisations | isNotEmpty %}
@@ -76,11 +76,11 @@
                             <dd>
                                 <ul class="inline-bullet-list">
                                     {% for funder in resolved.Entry[main.fields.programme.sys.id].fields.fundingOrganisations %}
-                                        <li>
-                                        {% if resolved.Entry[funder.sys.id].fields.url %}
-                                            <a href="{$ resolved.Entry[funder.sys.id].fields.url $}">{$ resolved.Entry[funder.sys.id].fields.title $}</a>
+                                        <li class="rtl_{$ resolved.Entry[funder.sys.id].fields.title.isRtl $}">
+                                        {% if resolved.Entry[funder.sys.id].fields.url.value %}
+                                            <a href="{$ resolved.Entry[funder.sys.id].fields.url.value $}">{$ resolved.Entry[funder.sys.id].fields.title.value $}</a>
                                         {% else %}
-                                            <span>{$ resolved.Entry[funder.sys.id].fields.title $}</span>
+                                            <span>{$ resolved.Entry[funder.sys.id].fields.title.value $}</span>
                                         {% endif %}
                                         </li>
                                     {% endfor %}
@@ -95,11 +95,11 @@
                             <dd>
                                 <ul class="inline-bullet-list">
                                     {% for funder in main.fields.fundingOrganisations %}
-                                        <li>
-                                            {% if resolved.Entry[funder.sys.id].fields.url %}
-                                                <a href="{$ resolved.Entry[funder.sys.id].fields.url $}">{$ resolved.Entry[funder.sys.id].fields.title $}</a>
+                                        <li class="rtl_{$ resolved.Entry[funder.sys.id].fields.title.isRtl $}">
+                                            {% if resolved.Entry[funder.sys.id].fields.url.value %}
+                                                <a href="{$ resolved.Entry[funder.sys.id].fields.url.value $}">{$ resolved.Entry[funder.sys.id].fields.title.value $}</a>
                                             {% else %}
-                                                <span>{$ resolved.Entry[funder.sys.id].fields.title $}</span>
+                                                <span>{$ resolved.Entry[funder.sys.id].fields.title.value $}</span>
                                             {% endif %}
                                         </li>
                                     {% endfor %}
@@ -116,16 +116,16 @@
                             <ul class="inline-bullet-list">
                                 {% for partner in main.fields.additionalPartners %}
                                     {% if resolved.Entry[partner.sys.id] %}
-                                        <li>
+                                        <li class="rtl_{$ resolved.Entry[partner.sys.id].fields.title.isRtl $}">
                                             {% if resolved.Entry[partner.sys.id].sys.contentType.sys.id == "Participant" %}
                                                 {# if country #}
-                                                <a href="{$ gb.locales.urlPrefix $}/country/{$ resolved.Entry[partner.sys.id].fields.country.sys.id $}/about">GBIF {$ resolved.Entry[partner.sys.id].fields.title $}</a>
+                                                <a href="{$ gb.locales.urlPrefix $}/country/{$ resolved.Entry[partner.sys.id].fields.country.sys.id $}/about">GBIF {$ resolved.Entry[partner.sys.id].fields.title.value $}</a>
                                             {% else %}
                                                 {#if organisation#}
-                                                {% if resolved.Entry[partner.sys.id].fields.url %}
-                                                    <a href="{$ resolved.Entry[partner.sys.id].fields.url $}">{$ resolved.Entry[partner.sys.id].fields.title $}</a>
+                                                {% if resolved.Entry[partner.sys.id].fields.url.value %}
+                                                    <a href="{$ resolved.Entry[partner.sys.id].fields.url.value $}">{$ resolved.Entry[partner.sys.id].fields.title.value $}</a>
                                                 {% else %}
-                                                    <span>{$ resolved.Entry[partner.sys.id].fields.title $}</span>
+                                                    <span>{$ resolved.Entry[partner.sys.id].fields.title.value $}</span>
                                                 {% endif %}
                                             {% endif %}
                                         </li>
@@ -138,16 +138,16 @@
                     {% if resolved.Entry[main.fields.leadPartner.sys.id] %}
                     <div>
                         <dt translate="cms.project.projectLead">Project lead</dt>
-                        <dd>
+                        <dd class="rtl_{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.title.isRtl $}">
                             {% if resolved.Entry[main.fields.leadPartner.sys.id].sys.contentType.sys.id == "Participant" %}
                                 {# if country #}
-                                <a href="{$ gb.locales.urlPrefix $}/country/{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.country.sys.id $}/about">GBIF {$ resolved.Entry[main.fields.leadPartner.sys.id].fields.title $}</a>
+                                <a href="{$ gb.locales.urlPrefix $}/country/{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.country.sys.id $}/about">GBIF {$ resolved.Entry[main.fields.leadPartner.sys.id].fields.title.value $}</a>
                             {% else %}
                                 {#if organisation#}
                                 {% if resolved.Entry[main.fields.leadPartner.sys.id].fields.url %}
-                                    <a href="{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.url $}">{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.title $}</a>
+                                    <a href="{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.url.value $}">{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.title.value $}</a>
                                 {% else %}
-                                    <span>{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.title $}</span>
+                                    <span>{$ resolved.Entry[main.fields.leadPartner.sys.id].fields.title.value $}</span>
                                 {% endif %}
                             {% endif %}
 

@@ -29,7 +29,7 @@ router.get('/resource/search', function(req, res) {
 /* for wrapping related items of an item in a manner similar to the normal search - it would benefit from a rethinking as it is neither elegant nor generic */
 router.get('/resource/key/search', function(req, res) {
     let resourceKey = req.query.key,
-        type = req.query.type == 'events' ? 'main.fields.events' : 'main.fields.news',
+        type = req.query.type == 'events' ? 'main.fields.events.en-GB' : 'main.fields.news.en-GB',
         isPreview = req.params.isPreview,
         preferedLocale = req.query.locale;
 
