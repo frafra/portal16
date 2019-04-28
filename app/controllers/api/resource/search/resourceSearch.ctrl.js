@@ -29,7 +29,7 @@ router.get('/resource/search', function(req, res) {
 /* for wrapping related items of an item in a manner similar to the normal search - it would benefit from a rethinking as it is neither elegant nor generic */
 router.get('/resource/key/search', function(req, res) {
     let resourceKey = req.query.key,
-        type = req.query.type == 'events' ? 'main.fields.events.en-GB' : 'main.fields.news.en-GB',
+        type = req.query.type == 'events' ? 'main.fields.events' : 'main.fields.news',
         isPreview = req.params.isPreview,
         preferedLocale = req.query.locale;
 
@@ -93,8 +93,9 @@ function transformResult(results, listPath, preferedLocale) {
         throw Error('contentful query failed');
     }
 
-    let contentItem = resource.getFirstContentItem(results);
+    let contentItem = resource.getLanguageVersion(resource.getFirstContentItem(results), preferedLocale);
 
+    // let entries = resource.getLanguageVersion(results.includes);
     let parsedResult = {};
     parsedResult.offset = 0;
     parsedResult.endOfRecords = true;
@@ -122,15 +123,18 @@ function transformResult(results, listPath, preferedLocale) {
     resourceResultParser.renameField(parsedResult.results, 'literature', 'abstract', 'summary');// rename literature.abcstract to summary for consistency with other content types
     resourceResultParser.renameField(parsedResult.results, 'event', 'country.sys.id', '_country');
     resourceResultParser.renameField(parsedResult.results, 'event', '_country', 'country');
+    resourceResultParser.renameField(parsedResult.results, 'event', 'venue.value', 'venue');
+    resourceResultParser.renameField(parsedResult.results, 'event', 'start.value', 'start');
+    resourceResultParser.renameField(parsedResult.results, 'event', 'end.value', 'end');
 
     resourceResultParser.selectLocale(parsedResult.results,
     ['body', 'summary', 'title', 'primaryImage.description', 'primaryImage.file', 'primaryImage.title'], contentfulLocaleMap[preferedLocale], contentfulLocaleMap[defaultLocale]);
-    resourceResultParser.renderMarkdown(parsedResult.results, ['body', 'summary', 'title']);
-    resourceResultParser.stripHtml(parsedResult.results, ['body', 'summary', 'title']);
-    resourceResultParser.concatFields(parsedResult.results, ['summary', 'body'], '_summary');
-    resourceResultParser.truncate(parsedResult.results, ['title'], 150);
-    resourceResultParser.truncate(parsedResult.results, ['body', 'summary', '_summary'], 200);
-    resourceResultParser.addSlug(parsedResult.results, 'title', contentfulLocaleMap[preferedLocale], contentfulLocaleMap[defaultLocale]);
+    resourceResultParser.renderMarkdown(parsedResult.results, ['body.value', 'summary.value', 'title.value']);
+    resourceResultParser.stripHtml(parsedResult.results, ['body.value', 'summary.value', 'title.value']);
+    resourceResultParser.concatFields(parsedResult.results, ['summary.value', 'body.value'], '_summary.value');
+    resourceResultParser.truncate(parsedResult.results, ['title.value'], 150);
+    resourceResultParser.truncate(parsedResult.results, ['body.value', 'summary.value', '_summary.value'], 200);
+    resourceResultParser.addSlug(parsedResult.results, 'title.value', contentfulLocaleMap[preferedLocale], contentfulLocaleMap[defaultLocale]);
     resourceResultParser.addUrl(parsedResult.results);
     return parsedResult;
 }

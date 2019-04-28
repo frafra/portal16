@@ -20,14 +20,14 @@
                     <div>{{ result.start | momentFormat: 'D MMM' }}</div>
                     <span>{{ result.start | momentFormat:'YYYY' }}</span>
                 </div>
-                <p class="m-b-025">
-                    {{result._summary}}
+                <p class="m-b-025 rtl_{{result.body.isRtl}}">
+                    {{result.body.value}}
                 </p>
                 <div class="discreet--very smaller" ng-if="result.start">
                     <div ng-if="result.country || result.location || result.venue">
                         <span class="gb-icon-marker"></span><span translate="country.{{ result.country }}" ng-if="result.country"></span>
                         <span ng-if="result.location"> - {{ result.location }}</span>
-                        <span ng-if="result.venue"> - {{ result.venue }}</span>
+                        <span ng-if="result.venue"> - <span class="rtl_false">{{ result.venue }}</span></span>
                     </div>
                     <div>
                         <span class="gb-icon-calendar"></span>

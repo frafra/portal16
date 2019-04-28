@@ -2,7 +2,7 @@
     <div>
         <div class="scrollable-y">
             <div class="table-container">
-                <table class="table search-table smaller">
+                <table class="table search-table smaller rtl-supported rtl-bootstrap">
                     <thead>
                     <tr>
                         <th></th>
@@ -30,8 +30,8 @@
                             </div>
                         </td>
                         <td class="table-cell--widder">
-                            <a ng-href="{$ gb.locales.urlPrefix $}/project/{{ result.id }}/{{ result._slug }}"
-                               ng-click="programmeKey.preventBubbling($event)">{{ result.title }}</a>
+                            <a ng-href="{$ gb.locales.urlPrefix $}/project/{{ result.id }}/{{ result._slug }}" class="rtl_{{result.title.isRtl}}"
+                               ng-click="programmeKey.preventBubbling($event)">{{ result.title.value }}</a>
                             {#<div class="discreet" ng-if="result.projectId">{{result.projectId}}</div>#}
                         </td>
                         <td class="table-cell--normal">
@@ -44,10 +44,10 @@
                         <td class="table-cell--narrow">
                             <span ng-if="result.end">{{ result.end | momentFormat:'LL' }}</span>
                         </td>
-                        <td class="table-cell--narrow">
+                        <td class="table-cell--narrow rtl_false">
                             <span ng-if="result.fundsAllocated">€{{ result.fundsAllocated | localNumber:'{$ gb.locales.current $}' }}</span>
                         </td>
-                        <td class="table-cell--narrow">
+                        <td class="table-cell--narrow rtl_false">
                             <span ng-if="result.matchingFunds">€{{ result.matchingFunds | localNumber:'{$ gb.locales.current $}' }}</span>
                         </td>
                         <td class="table-cell--normal">
@@ -58,8 +58,8 @@
                             <span translate="country.{{ result.contractCountry }}"
                                   ng-if="result.contractCountry">{{ result.contractCountry }}</span>
                         </td>
-                        <td class="table-cell--widder">
-                            <span ng-if="result.status">{{ result.call }}</span>
+                        <td class="table-cell--widder rtl_{{result.call.isRtl}}">
+                            <span ng-if="result.status">{{ result.call.value }}</span>
                         </td>
                     </tr>
                     </tbody>

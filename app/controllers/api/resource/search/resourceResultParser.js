@@ -241,8 +241,8 @@ function renameField(results, type, oldFieldName, newFieldName) {
     results.forEach(function(e) {
         if (e.contentType == type) {
             let value = _.get(e, oldFieldName);
-            _.set(e, newFieldName, value);
             _.set(e, oldFieldName, undefined);
+            _.set(e, newFieldName, value);
         }
     });
 }

@@ -21,7 +21,8 @@ module.exports = {
     getHomePage: getHomePage,
     getByAlias: getByAlias,
     getById: getById,
-    getFirst: getFirst
+    getFirst: getFirst,
+    getLanguageVersion: getLanguageVersion
 };
 
 
@@ -83,7 +84,6 @@ function decorateFirst(results, locale) {
 
 function getLanguageVersion(item, locale) {
     let localized = resourceResultParser.getLocaleVersion(item, locale, defaultLocale);
-    console.log(JSON.stringify(localized, null, 2));
     return localized;
 }
 
