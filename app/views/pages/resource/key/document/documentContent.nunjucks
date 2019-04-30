@@ -14,19 +14,19 @@
             <div class="container--narrow">
                 <div class="card card--spaced">
                     <div class="card__content text-center seperator--b">
-                        <h3>{$ main.fields.title $}</h3>
-                        <a href="{$ resolved.Asset[main.fields.document.sys.id].fields.file.url $}" class="gb-button--brand">Download <span class="gb-icon-file-download"></span></a>
+                        <h3 class="rtl_{$ main.fields.title.isRtl $}">{$ main.fields.title.value $}</h3>
+                        <a href="{$ resolved.Asset[main.fields.document.sys.id].fields.file.url.value $}" class="gb-button--brand">{$ __('downloadKey.download') $} <span class="gb-icon-file-download"></span></a>
                     </div>
                     <div class="card__content clearfix">
-                        <div class="clearfix">
-                            {$ (main.fields.body or main.fields.summary) | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
+                        <div class="clearfix rtl_{$ (main.fields.body.value or main.fields.summary.value) $}">
+                            {$ (main.fields.body.value or main.fields.summary.value) | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
                         </div>
                     </div>
-                    {% if main.fields.citation %}
+                    {% if main.fields.citation.value %}
                     <div class="card__content seperator">
-                        <h4>Citations</h4>
-                        <div class="smaller">
-                            {$ main.fields.citation | renderMarkdown | sanitize | linkify | safe $}
+                        <h4 translate="counts.pCitations" translate-values="{NUMBER: 1}"></h4>
+                        <div class="smaller rtl_{$ main.fields.citation.isRtl $}">
+                            {$ main.fields.citation.value | renderMarkdown | sanitize | linkify | safe $}
                         </div>
                     </div>
                     {% endif %}

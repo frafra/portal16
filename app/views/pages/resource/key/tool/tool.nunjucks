@@ -13,16 +13,16 @@
                                         __('enums.cms.contentType.tool') $}</a></span>
                                 <span class="article-header__category__lower">{$ (main.fields.meta.drupal.created or main.sys.createdAt) | formatDate(gb.locales.current) $}</span>
                             </nav>
-                            <h1>{$ main.fields.title $}</h1>
+                            <h1 class="rtl_{$ main.fields.title.isRtl $}">{$ main.fields.title.value $}</h1>
                             {% if main.fields.summary %}
-                            <div class="article-header__intro">
-                                {$ main.fields.summary | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
+                            <div class="article-header__intro rtl_{$ main.fields.summary.isRtl $}">
+                                {$ main.fields.summary.value | renderMarkdown | sanitizeTrusted(gb.locales.urlPrefix) | addPortalClasses | safe $}
                             </div>
                             {% endif %}
 
                             <div class="article-header__button">
                                 {% if main.fields.primaryLink %}
-                                    <a href="{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.url $}" class="gb-button--discreet small">{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.label $}</a>
+                                    <a href="{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.url.value $}" class="gb-button--discreet small rtl_{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.label.isRtl $}">{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.label.value $}</a>
                                 {% endif %}
                             </div>
 

@@ -11,32 +11,32 @@
                                 <span class="article-header__category__upper">
                                     <a href="{$ gb.locales.urlPrefix $}/resource/search?contentType=event">{$ __('enums.cms.contentType.event') $}</a>
                                 </span>
-                                <span class="article-header__category__lower">{$ main.fields.start | dateRange(main.fields.end, false, gb.locales.current) $}</span>
+                                <span class="article-header__category__lower">{$ main.fields.start.value | dateRange(main.fields.end.value, false, gb.locales.current) $}</span>
                             </nav>
-                            <h1>{$ main.fields.title $}</h1>
+                            <h1 class="rtl_{$ main.fields.title.isRtl $}">{$ main.fields.title.value $}</h1>
 
                             <div class="article-header__button">
                                 {% if main.fields.primaryLink %}
-                                <a href="{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.url $}" class="gb-button--discreet small">{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.label $}</a>
+                                <a href="{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.url.value $}" class="gb-button--discreet small rtl_{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.label.isRtl $}">{$ resolved.Entry[main.fields.primaryLink.sys.id].fields.label.value $}</a>
                                 {% endif %}
-                                <a ng-href="/api/newsroom/events/{$ main.sys.id $}.ics" class="gb-button--discreet small"><span class="gb-icon-calendar"></span> {$ __('resource.addToCalendar') $} </a>
+                                <a ng-href="/api/newsroom/events/{$ main.sys.id $}.ics" class="gb-button--discreet small rtl-supported"><span class="gb-icon-calendar"></span> {$ __('resource.addToCalendar') $} </a>
                             </div>
 
                             <div class="article-header__highlights">
                                 <div><span class="gb-icon-calendar"></span>
-                                    {$ main.fields.start | dateRange(main.fields.end, false, gb.locales.current) $}
+                                    {$ main.fields.start.value | dateRange(main.fields.end.value, false, gb.locales.current) $}
                                 </div>
                                 {% if main.fields.__singleDay and not main.fields.allDayEvent %}
                                 <div>
-                                    <span class="gb-icon-clock"></span>{$ main.fields.start | timeRange(main.fields.end, gb.locales.current) $}
+                                    <span class="gb-icon-clock"></span>{$ main.fields.start.value | timeRange(main.fields.end.value, gb.locales.current) $}
                                     {% if main.fields.showTimeZone %}
-                                    <span> UTC {$ main.fields.start | formatDate(gb.locales.current, 'Z') $}</span>
+                                    <span> UTC {$ main.fields.start.value | formatDate(gb.locales.current, 'Z') $}</span>
                                     {% endif %}
                                 </div>
                                 {% endif %}
 
                                 {% if main.fields.country %}
-                                <div><a href="#where" class="inherit"><span class="gb-icon-marker"></span>{$ __('country.' + main.fields.country.sys.id) $}</a></div>
+                                <div><a href="#where" class="inherit rtl-supported"><span class="gb-icon-marker"></span>{$ __('country.' + main.fields.country.sys.id) $}</a></div>
                                 {% endif %}
 
                             </div>
@@ -56,20 +56,20 @@
                     <div class="article-secondary">
                         {% include "../documentsLinks.nunjucks" %}
 
-                        <section>
+                        <section class="rtl-supported">
                             <span class="relative-anchor-offset"><a id="where"></a></span>
                             {#<h3>Where</h3>#}
                             <dl class="inline">
                                 {% if main.fields.venue %}
                                     <div>
                                         <dt>{$ __('resource.venue') $}</dt>
-                                        <dd>{$ main.fields.venue | safe $}</dd>
+                                        <dd class="rtl_{$ main.fields.venue.isRtl $}">{$ main.fields.venue.value | safe $}</dd>
                                     </div>
                                 {% endif %}
                                 {% if main.fields.location %}
                                     <div>
                                         <dt>{$ __('resource.location') $}</dt>
-                                        <dd>{$ main.fields.location | safe $}</dd>
+                                        <dd class="rtl_{$ main.fields.location.isRtl $}">{$ main.fields.location.value | safe $}</dd>
                                     </div>
                                 {% endif %}
                                 {% if main.fields.country %}
@@ -81,12 +81,12 @@
                                 <div>
                                     <dt>{$ __('resource.when') $}</dt>
                                     {% if main.fields.allDayEvent %}
-                                        <dd>{$ main.fields.start | dateRange(main.fields.end, false, gb.locales.current) $}</dd>
+                                        <dd>{$ main.fields.start.value | dateRange(main.fields.end.value, false, gb.locales.current) $}</dd>
                                     {% else  %}
                                         <dd>
-                                            {$ main.fields.start | dateRange(main.fields.end, true, gb.locales.current) $}
+                                            {$ main.fields.start.value | dateRange(main.fields.end.value, true, gb.locales.current) $}
                                             {% if main.fields.showTimeZone %}
-                                                <span> UTC {$ main.fields.start | formatDate(gb.locales.current, 'Z') $}</span>
+                                                <span> UTC {$ main.fields.start.value | formatDate(gb.locales.current, 'Z') $}</span>
                                             {% endif %}
                                         </dd>
                                     {% endif %}
@@ -94,7 +94,7 @@
                                 {% if main.fields.eventLanguage %}
                                     <div>
                                         <dt>{$ __('resource.language') $}</dt>
-                                        <dd>{$ main.fields.eventLanguage $}</dd>
+                                        <dd class="rtl_{$ main.fields.eventLanguage.isRtl $}">{$ main.fields.eventLanguage.value $}</dd>
                                     </div>
                                 {% endif %}
                             </dl>
