@@ -1,8 +1,8 @@
-<article class="card m-b-05 searchCard">
+<article class="card m-b-05 searchCard rtl-supported">
     <div class="card__stripe">
         <div class="card__content">
             <a href="" ui-sref="datasetSearchTable({type:result.type})" ng-href="{{ portal.urlPrefix }}/dataset/search?type={{ result.type }}" translate="dataset.longType.{{ result.type }}" class="inherit searchCard__type hoverBox"></a>
-            <h3 class="searchCard__headline">
+            <h3 class="searchCard__headline rtl_false">
                 <a ui-sref="datasetKey({key:result.key})" ng-href="{{ portal.urlPrefix }}/dataset/{{result.key}}">{{result.title}}</a>
             </h3>
         </div>
@@ -15,19 +15,20 @@
                     <img ng-src="{$ _meta.clientTileApi $}?x=0&y=0&z=0&palette=yellows_reds&key={{result.key}}&type=DATASET&resolution=4">
                 </div>
             </div>
-            <p ng-if="result.description">
-                {{result.description | stripTags | truncate:200 }}
-            </p>
-            <p ng-if="!result.description" class="discreet" translate="dataset.noDescriptionProvided">
-                
-            </p>
-            <p class="discreet--very smaller" ng-if="result.publishingOrganizationTitle">
-                <span translate="dataset.publishedBy"></span> {{ result.publishingOrganizationTitle | truncate:100 }}
-            </p>
-            <p ng-if="result.highlights && result.highlights.description">
-                <span>... <span ng-bind-html="result.highlights.description"></span> ...</span>
-
-            </p>
+            <div class="rtl_false">
+                <p ng-if="result.description">
+                    {{result.description | stripTags | truncate:200 }}
+                </p>
+                <p ng-if="!result.description" class="discreet" translate="dataset.noDescriptionProvided">
+                    
+                </p>
+                <p class="discreet--very smaller" ng-if="result.publishingOrganizationTitle">
+                    <span translate="dataset.publishedBy"></span> {{ result.publishingOrganizationTitle | truncate:100 }}
+                </p>
+                <p ng-if="result.highlights && result.highlights.description">
+                    <span>... <span ng-bind-html="result.highlights.description"></span> ...</span>
+                </p>
+            </div>
             <p ng-if="result.highlights && result.highlights.keywords">
                 <span translate="dataset.keywords"></span>: <span ng-bind-html="result.highlights.keywords"></span>
             </p>
