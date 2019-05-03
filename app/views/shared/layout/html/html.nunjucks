@@ -59,6 +59,12 @@
 </div>
 <div gb-help-overlay></div>
 
+<script type="text/ng-template" id="dropdown.html">
+  <a href="" dir="auto">
+        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+    </a>
+</script>
+
 <script>
     window.gb = window.gb || {};
     window.gb.locale = '{$ gb.locales.current $}';

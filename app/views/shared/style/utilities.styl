@@ -187,6 +187,7 @@ for num in 0 1 2 3 {
         margin-right 0
     }
 }
+// bootstrap overwrites
 .rtl .rtl-bootstrap {
     caption, th {
         text-align right
@@ -196,6 +197,31 @@ for num in 0 1 2 3 {
     }
     .pull-left {
         float right!important;
+    }
+    .radio label,
+    .checkbox label {
+        padding-left: 0;
+        padding-right: 20px;
+    }
+    .radio input[type="radio"],
+    .radio-inline input[type="radio"],
+    .checkbox input[type="checkbox"],
+    .checkbox-inline input[type="checkbox"] {
+        margin-left: 0;
+        margin-right: -20px;
+    }
+}
+.rtl {
+    .dropdown-menu {
+        left auto 
+        right 0
+        text-align right
+    }
+    .gb-icon-angle-left:before {
+        content: $icon-string-angle-right
+    }
+    .gb-icon-angle-right:before {
+        content: $icon-string-angle-left
     }
 }
 
