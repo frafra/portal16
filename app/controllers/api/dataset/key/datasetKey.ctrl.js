@@ -108,7 +108,11 @@ function clean(obj) {
 
 function cleanMarkdownField(o, field) {
     if (_.has(o, field)) {
-        _.set(o, field, format.sanitize(format.linkify(format.decodeHtml(md.render(_.get(o, field))))).replace(/(<p>)/g, '<p dir="auto">'));
+        _.set(o, field, format.sanitize(format.linkify(format.decodeHtml(md.render(_.get(o, field)))))
+            .replace(/(<p>)/g, '<p dir="auto">')
+            .replace(/(<ul>)/g, '<ul dir="auto">')
+            .replace(/(<ol>)/g, '<ol dir="auto">')
+            );
     }
 }
 
