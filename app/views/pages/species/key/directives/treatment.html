@@ -17,8 +17,8 @@
             <a ng-href="{{image.references}}">
               <img ng-src="{{ image.identifier }}"></a>
               <div dir="auto" class="summary m-t-05">{{image.description}}</div>
-              <div class="summary smaller">
-                <span dir="auto" ng-if="image.rightsHolder || image.creator">&copy;
+              <div dir="auto" class="summary smaller">
+                <span ng-if="image.rightsHolder || image.creator">&copy;
                   {{ (image.rightsHolder) ? image.rightsHolder : image.creator }}</span>
               </div>
             </div>
